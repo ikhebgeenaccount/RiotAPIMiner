@@ -20,8 +20,8 @@ Below a simple example that fetches 15000 games from the Riot API.
 	// Create a Sequencer to request the data with
 	Sequencer sequencer = new Sequencer(requester, "match");
 	
-    // Next we create a Fetcher that will fetch our games with a MatchFormatter, 
-	// that will put our data in the right format and we specify how many games we want
+    // Next we create a Fetcher that will fetch our games with a MatchFormatter, which 
+	// will put our data in the wanted format, and we specify how many games we want
 	Fetcher fetcher = new Fetcher(sequencer, new MatchFormatter("result.csv"), 15000);
 	
 	// Then, we run our created Fetcher
