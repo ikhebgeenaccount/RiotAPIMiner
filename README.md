@@ -31,8 +31,6 @@ It is also possible to filter the data. You can filter for example certain champ
 
 Expanding above example to only return ARAM games:
 
-ARAM_5x5
-
 	// Before we run our Fetcher, add a Filter to its
 	filter.registerFilter(new GamemodeFilter("ARAM_5x5"));
 	// Then, run the Fetcher
