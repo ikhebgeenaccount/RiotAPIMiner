@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * The type Fetcher.
- * A Fetcher uses a set of Sequencers (or just one) to get APIDataObjects from the Riot API.
+ * A Fetcher uses  a Sequencer to get APIDataObjects from the Riot API.
  */
 public class Fetcher extends Thread {
 
@@ -22,10 +22,11 @@ public class Fetcher extends Thread {
 	/**
 	 * Instantiates a new Fetcher.
 	 */
-	public Fetcher(Sequencer sequencer, Formatter formatter) {
+	public Fetcher(Sequencer sequencer, Formatter formatter, int numberOfResults) {
 		this.sequencer = sequencer;
 		this.formatter = formatter;
 		this.filters = new ArrayList<>();
+		this.numberOfResults = numberOfResults;
 	}
 
 	@Override
