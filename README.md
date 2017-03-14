@@ -26,7 +26,7 @@ Below a simple example that fetches 15000 games from the Riot API.
 	
 	// Then, we run our created Fetcher
 	fetcher.run();
-	// After completion, there will be file called "result.csv" with our data
+	// After completion, there will be file called "result.csv" with 15000 games stored in it
 	
 ### Filtering
 
@@ -35,7 +35,7 @@ It is also possible to filter the data. You can filter for example certain champ
 Expanding above example to only return ARAM games:
 
 	// Before we run our Fetcher, add a Filter to it
-	filter.registerFilter(new GamemodeFilter("ARAM_5x5"));
+	fetcher.registerFilter(new GamemodeFilter("ARAM_5x5"));
 	// Then, run the Fetcher
 	fetcher.run();
 	// Now, in our "result.csv" file we will only find ARAMs

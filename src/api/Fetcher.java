@@ -1,6 +1,7 @@
 package api;
 
 import api.data.APIDataObject;
+import exception.HTTPStatusException;
 import filter.Filter;
 import formatter.Formatter;
 
@@ -51,20 +52,24 @@ public class Fetcher extends Thread {
 		 */
 
 		while (numberOfResults < resultCap) {
-			APIDataObject obj = sequencer.next();
+			try {
+				APIDataObject obj = sequencer.next();
 
-			if (obj == null)
-				break;
+				if (obj == null)
+					break;
 
-			boolean ok = true;
-			for (Filter filter : filters) {
-				if (!filter.filter(obj))
-					ok = false;
-			}
+				boolean ok = true;
+				for (Filter filter : filters) {
+					if (!filter.filter(obj))
+						ok = false;
+				}
 
-			if (ok) {
-				formatter.add(obj);
-				numberOfResults++;
+				if (ok) {
+					formatter.add(obj);
+					numberOfResults++;
+				}
+			} catch (HTTPStatusException e) {
+				e.printStackTrace();
 			}
 		}
 
