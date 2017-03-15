@@ -23,11 +23,11 @@ public class Fetcher extends Thread {
 	/**
 	 * Instantiates a new Fetcher.
 	 */
-	public Fetcher(Sequencer sequencer, Formatter formatter, int numberOfResults) {
+	public Fetcher(Sequencer sequencer, Formatter formatter, int resultCap) {
 		this.sequencer = sequencer;
 		this.formatter = formatter;
 		this.filters = new ArrayList<>();
-		this.numberOfResults = numberOfResults;
+		this.resultCap = resultCap;
 	}
 
 	@Override
