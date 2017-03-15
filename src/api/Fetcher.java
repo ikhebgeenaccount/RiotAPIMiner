@@ -22,6 +22,10 @@ public class Fetcher extends Thread {
 
 	/**
 	 * Instantiates a new Fetcher.
+	 *
+	 * @param sequencer the sequencer
+	 * @param formatter the formatter
+	 * @param resultCap the result cap
 	 */
 	public Fetcher(Sequencer sequencer, Formatter formatter, int resultCap) {
 		this.sequencer = sequencer;
@@ -85,4 +89,39 @@ public class Fetcher extends Thread {
 		filters.add(filter);
 	}
 
+	/**
+	 * Gets start time.
+	 *
+	 * @return the start time
+	 */
+	public long getStartTime() {
+		return startTime;
+	}
+
+	/**
+	 * Sets start time.
+	 *
+	 * @param startTime the start time
+	 */
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+
+	/**
+	 * Gets end time.
+	 *
+	 * @return the end time
+	 */
+	public long getEndTime() {
+		return endTime;
+	}
+
+	/**
+	 * Sets end time.
+	 *
+	 * @param endTime the end time
+	 */
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
 }
