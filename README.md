@@ -21,7 +21,7 @@ Below a simple example that fetches 15000 games from the Riot API.
 	Sequencer sequencer = new Sequencer(requester, "match", args);
 	
     // Next we create a Fetcher that will fetch our games with a MatchFormatter, which 
-	// will put our data in the wanted format, and we specify how many games we want
+	// will put our data in the desired format, and we specify how many games we want
 	Fetcher fetcher = new Fetcher(sequencer, new MatchFormatter("result.csv"), 15000);
 	
 	// Then, we run our created Fetcher
@@ -38,7 +38,7 @@ Expanding above example to only return ARAM games:
 	fetcher.registerFilter(new GamemodeFilter("ARAM_5x5"));
 	// Then, run the Fetcher
 	fetcher.run();
-	// Now, in our "result.csv" file we will only find ARAMs
+	// Now, in our "result.csv" file we will find 15000 ARAMs
 
 
 ## Disclaimer
