@@ -34,7 +34,7 @@ public class RiotAPI {
 	 * @param args     the args
 	 * @return the endpoint url
 	 */
-	public String getEndpointUrl(String endpoint, ArrayList<Integer> args) {
+	public String getEndpointUrl(String endpoint, ArrayList<Long> args) {
 		switch (endpoint.toLowerCase()) {
 			case "match":
 				return getMatchEndpointURL(args.get(0));
@@ -50,7 +50,7 @@ public class RiotAPI {
 	 * @return the base url
 	 */
 	private String getBaseURL() {
-		return "https://" + getRegion() + "api.pvp.net";
+		return "https://" + getRegion() + ".api.pvp.net";
 	}
 
 	private String getKeyQuery() {
@@ -63,8 +63,8 @@ public class RiotAPI {
 	 * @param championId the champion id
 	 * @return the champion end point url
 	 */
-	private String getChampionEndPointURL(int championId) {
-		return getBaseURL() + "/api/lol/" + getRegion() + "/v1.2/champion/" + championId + "&" + getKeyQuery();
+	private String getChampionEndPointURL(long championId) {
+		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v1.2/champion/" + championId + "&" + getKeyQuery();
 	}
 
 	/**
@@ -73,8 +73,8 @@ public class RiotAPI {
 	 * @param matchId the match id
 	 * @return the match endpoint url
 	 */
-	private String getMatchEndpointURL(int matchId) {
-		return getBaseURL() + "/api/lol/" + getRegion() + "/v2.2/match/" + matchId + "?" + getKeyQuery();
+	private String getMatchEndpointURL(long matchId) {
+		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v2.2/match/" + matchId + "?" + getKeyQuery();
 	}
 
 	/**

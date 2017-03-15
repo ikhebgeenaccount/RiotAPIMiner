@@ -2,9 +2,10 @@ package api;
 
 import api.data.APIDataObject;
 import exception.HTTPStatusException;
+import exception.RateLimitExceededException;
 import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 /**
@@ -14,10 +15,11 @@ public class Sequencer {
 
 	private Requester requester;
 	private String endpoint;
-	private ArrayList<Integer> args;
+	private ArrayList<Long> args;
 
 	private int requestCap = 0;
 	private int amountOfRequests = 0;
+	private int nextCounter = 0;
 
 	/**
 	 * Instantiates a new Sequencer.
@@ -27,7 +29,7 @@ public class Sequencer {
 	 * @param endpoint  the endpoint
 	 * @param startArgs the start args
 	 */
-	public Sequencer(Requester requester, String endpoint, ArrayList<Integer> startArgs) {
+	public Sequencer(Requester requester, String endpoint, ArrayList<Long> startArgs) {
 		setRequester(requester);
 		setEndpoint(endpoint);
 		setArgs(startArgs);
@@ -38,8 +40,10 @@ public class Sequencer {
 	 * Returns null if the Sequencer has ended.
 	 *
 	 * @return the api data object
+	 * @throws HTTPStatusException the http status exception
 	 */
-	public APIDataObject next() throws HTTPStatusException {
+	public APIDataObject next() throws ParseException, HTTPStatusException, MalformedURLException, RateLimitExceededException {
+		nextCounter++;
 		// If a requestcap is set and they are reached, return null to indicate end of Sequencer.
 		if ((requestCap != 0 && amountOfRequests > requestCap))
 			return null;
@@ -48,14 +52,8 @@ public class Sequencer {
 			args.set(i, args.get(i) + 1);
 		}
 
-		try {
-			amountOfRequests++;
-			return requester.request(endpoint, args);
-		} catch (IOException | ParseException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		amountOfRequests++;
+		return requester.request(endpoint, args);
 	}
 
 	/**
@@ -81,7 +79,7 @@ public class Sequencer {
 	 *
 	 * @return the args
 	 */
-	public ArrayList<Integer> getArgs() {
+	public ArrayList<Long> getArgs() {
 		return args;
 	}
 
@@ -90,7 +88,7 @@ public class Sequencer {
 	 *
 	 * @param args the args
 	 */
-	public void setArgs(ArrayList<Integer> args) {
+	public void setArgs(ArrayList<Long> args) {
 		this.args = args;
 	}
 
@@ -138,5 +136,14 @@ public class Sequencer {
 	 */
 	public void setEndpoint(String endpoint) {
 		this.endpoint = endpoint;
+	}
+
+	/**
+	 * Gets next counter.
+	 *
+	 * @return the next counter
+	 */
+	public int getNextCounter() {
+		return nextCounter;
 	}
 }

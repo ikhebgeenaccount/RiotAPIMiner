@@ -2,9 +2,12 @@ package api;
 
 import api.data.APIDataObject;
 import exception.HTTPStatusException;
+import exception.RateLimitExceededException;
 import filter.Filter;
 import formatter.Formatter;
+import org.json.simple.parser.ParseException;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 /**
@@ -17,8 +20,11 @@ public class Fetcher extends Thread {
 	private Sequencer sequencer;
 	private Formatter formatter;
 
-	private long startTime, endTime;
+	private long startTime, endTime, sequenceTime = 0;
 	private int numberOfResults = 0, resultCap = 0;
+
+	private boolean statusUpdates = false;
+	private int updateInterval = 1000;
 
 	/**
 	 * Instantiates a new Fetcher.
@@ -56,6 +62,9 @@ public class Fetcher extends Thread {
 		 */
 
 		while (numberOfResults < resultCap) {
+			if (numberOfResults % updateInterval == 0) {
+				System.out.println("Fetcher has fetched " + numberOfResults + "/" + resultCap + " results (" + Math.round((double)numberOfResults/(double)resultCap*100) + "%)");
+			}
 			try {
 				APIDataObject obj = sequencer.next();
 
@@ -73,7 +82,29 @@ public class Fetcher extends Thread {
 					numberOfResults++;
 				}
 			} catch (HTTPStatusException e) {
+				int code = e.getCode();
+				switch(code) {
+					case 404: // File not found
+						break;
+//					case 429: // Rate limit exceeded
+//						System.out.println("Rate limit exceeded with " + sequencer.getAmountOfRequests() + " in " + Math.round((System.currentTimeMillis() - startTime)/1000) + "s.\nSlowing down.");
+//						sequenceTime = (System.currentTimeMillis() - startTime) / sequencer.getNextCounter();
+//						break;
+					default:
+						System.out.println(e.getMessage());
+						break;
+				}
+			} catch (ParseException e) {
 				e.printStackTrace();
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (RateLimitExceededException e) {
+//				System.out.println("Rate limit exceeded with " + sequencer.getAmountOfRequests() + " in " + Math.round((System.currentTimeMillis() - startTime)/1000) + "s, sleeping for " + e.getSecondsLeftToReset() + "s.");
+				try {
+					this.sleep(e.getSecondsLeftToReset() * 1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 
@@ -123,5 +154,23 @@ public class Fetcher extends Thread {
 	 */
 	public void setEndTime(long endTime) {
 		this.endTime = endTime;
+	}
+
+	/**
+	 * Sets status updates.
+	 *
+	 * @param statusUpdates the status updates
+	 */
+	public void setStatusUpdates(boolean statusUpdates) {
+		this.statusUpdates = statusUpdates;
+	}
+
+	/**
+	 * Sets update interval.
+	 *
+	 * @param updateInterval the update interval
+	 */
+	public void setUpdateInterval(int updateInterval) {
+		this.updateInterval = updateInterval;
 	}
 }

@@ -19,16 +19,16 @@ public class APIDataObjectFactory {
 	 * @return the api data object
 	 * @throws HTTPStatusException the http riot api status exception
 	 */
-	public APIDataObject createAPIDataObject(JSONObject obj, String type) throws HTTPStatusException {
-		if (((JSONObject)obj.get("status")).get("status_code").equals("200")) {
+	public APIDataObject createAPIDataObject(JSONObject obj, String type) {
+//		if (!obj.containsKey("status")) {
 			switch (type) {
 				case "match":
 					return new Match(obj);
 				default:
 					throw new UnkownAPIDataObjectTypeException("The type " + type + " is not recognized as an APIDataObject subclass.");
 			}
-		} else {
-			throw new HTTPStatusException("Riot API gave status code " + ((JSONObject)obj.get("status")).get("status_code") + "with message: " + ((JSONObject)obj.get("status")).get("message"));
-		}
+//		} else {
+//			throw new HTTPStatusException("Riot API gave status code " + ((JSONObject)obj.get("status")).get("status_code") + "with message: " + ((JSONObject)obj.get("status")).get("message"), (int)((JSONObject)obj.get("status")).get("status_code"));
+//		}
 	}
 }
