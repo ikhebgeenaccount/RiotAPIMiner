@@ -1,7 +1,6 @@
 package formatter;
 
-import api.data.APIDataObject;
-import api.data.Match;
+import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -49,8 +48,8 @@ public class MatchFormatter implements Formatter {
 	}
 
 	@Override
-	public void add(APIDataObject obj) {
-		output += formatAPIDataObject(obj) + "\n";
+	public void add(JSONObject obj) {
+		output += formatJSONObject(obj) + "\n";
 		outputCounter++;
 
 		if (outputCounter > writeAmount) {
@@ -65,8 +64,19 @@ public class MatchFormatter implements Formatter {
 		}
 	}
 
-	private String formatAPIDataObject(APIDataObject obj) {
-		return Long.toString(((Match)obj).getMatchId());
+	private String formatJSONObject(JSONObject obj) {
+		String result = "";
+
+		result += obj.get("matchId") + ",";
+		result += obj.get("matchVersion") + ",";
+		result += obj.get("platformId") + ",";
+		result += obj.get("region") + ",";
+		result += obj.get("mapId") + ",";
+		result += obj.get("matchMode") + ",";
+		result += obj.get("matchDuration") + ",";
+		result += obj.get("queueType");
+
+		return result;
 	}
 
 	@Override

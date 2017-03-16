@@ -1,10 +1,10 @@
 package api;
 
-import api.data.APIDataObject;
 import exception.HTTPStatusException;
 import exception.RateLimitExceededException;
 import filter.Filter;
 import formatter.Formatter;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.net.MalformedURLException;
@@ -66,7 +66,7 @@ public class Fetcher extends Thread {
 				System.out.println("Fetcher has fetched " + numberOfResults + "/" + resultCap + " results (" + Math.round((double)numberOfResults/(double)resultCap*100) + "%)");
 			}
 			try {
-				APIDataObject obj = sequencer.next();
+				JSONObject obj = sequencer.next();
 
 				if (obj == null)
 					break;
@@ -101,7 +101,8 @@ public class Fetcher extends Thread {
 			} catch (RateLimitExceededException e) {
 //				System.out.println("Rate limit exceeded with " + sequencer.getAmountOfRequests() + " in " + Math.round((System.currentTimeMillis() - startTime)/1000) + "s, sleeping for " + e.getSecondsLeftToReset() + "s.");
 				try {
-					this.sleep(e.getSecondsLeftToReset() * 1000);
+					sequencer.decrementArguments();
+					Thread.sleep(e.getSecondsLeftToReset() * 1000);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}

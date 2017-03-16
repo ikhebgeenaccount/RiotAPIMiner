@@ -1,15 +1,11 @@
 package filter;
 
-import api.data.APIDataObject;
-
-import java.util.ArrayList;
+import org.json.simple.JSONObject;
 
 /**
  * The interface Filter.
- *
- * @param <T> the type parameter
  */
-public interface Filter<T extends APIDataObject> {
+public interface Filter {
 
 	/**
 	 * True if obj passes the Filter, false otherwise.
@@ -17,13 +13,13 @@ public interface Filter<T extends APIDataObject> {
 	 * @param obj the obj
 	 * @return the boolean
 	 */
-	boolean filter(T obj);
+	boolean filter(JSONObject obj);
 
-	/**
-	 * Filters the ArrayList, returns an ArrayList with just the items that pass the Filter.
-	 *
-	 * @param objs the objs
-	 * @return the array list
-	 */
-	ArrayList<T> filter(ArrayList<T> objs);
+//	/**
+//	 * Filters the ArrayList, returns an ArrayList with just the items that pass the Filter.
+//	 *
+//	 * @param objs the objs
+//	 * @return the array list
+//	 */
+//	ArrayList<JSONObject> filter(ArrayList<JSONObject> objs);
 }

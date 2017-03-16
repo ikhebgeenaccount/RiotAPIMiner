@@ -1,15 +1,22 @@
 package filter;
 
-import api.data.Match;
+import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
 /**
  * The type Gamemode filter.
  */
-public class GamemodeFilter implements Filter<Match>{
+public class GamemodeFilter implements Filter {
 
 	private ArrayList<String> gamemodes;
+
+	/**
+	 * Instantiates a new Gamemode filter.
+	 */
+	public GamemodeFilter() {
+		this.gamemodes = new ArrayList<>();
+	}
 
 	/**
 	 * Instantiates a new Gamemode filter.
@@ -17,7 +24,8 @@ public class GamemodeFilter implements Filter<Match>{
 	 * @param gamemode the gamemode
 	 */
 	public GamemodeFilter(String gamemode) {
-		this.gamemodes = new ArrayList<>();
+		this();
+		gamemodes.add(gamemode);
 	}
 
 	/**
@@ -30,12 +38,25 @@ public class GamemodeFilter implements Filter<Match>{
 	}
 
 	@Override
-	public boolean filter(Match obj) {
-		return false;
+	public boolean filter(JSONObject obj) {
+		boolean found = false;
+
+		for (String gamemode : gamemodes) {
+			if (obj.get("queueType").equals(gamemode)) {
+				found = true;
+				break;
+			}
+		}
+
+		return found;
 	}
 
-	@Override
-	public ArrayList<Match> filter(ArrayList<Match> objs) {
-		return null;
+	/**
+	 * Add gamemode.
+	 *
+	 * @param gamemode the gamemode
+	 */
+	public void addGamemode(String gamemode) {
+		gamemodes.add(gamemode);
 	}
 }

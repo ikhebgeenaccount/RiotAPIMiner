@@ -1,7 +1,5 @@
 package api;
 
-import api.data.APIDataObject;
-import api.data.APIDataObjectFactory;
 import exception.HTTPStatusException;
 import exception.RateLimitExceededException;
 import org.json.simple.JSONObject;
@@ -23,14 +21,12 @@ import java.util.ArrayList;
  */
 public class Requester {
 
-	private APIDataObjectFactory factory;
 	private RiotAPI api;
 
 	/**
 	 * Instantiates a new Requester.
 	 */
 	public Requester(RiotAPI api) {
-		this.factory = new APIDataObjectFactory();
 		this.api = api;
 	}
 
@@ -44,12 +40,8 @@ public class Requester {
 	 * @throws ParseException      the parse exception
 	 * @throws HTTPStatusException the http riot api status exception
 	 */
-	public APIDataObject request(String endpoint, ArrayList<Long> args) throws ParseException, HTTPStatusException, MalformedURLException, RateLimitExceededException {
-		String url = api.getEndpointUrl(endpoint, args);
-
-		JSONObject obj = request(new URL(url));
-
-		return factory.createAPIDataObject(obj, endpoint);
+	public JSONObject request(String endpoint, ArrayList<Long> args) throws ParseException, HTTPStatusException, MalformedURLException, RateLimitExceededException {
+		return request(new URL(api.getEndpointUrl(endpoint, args)));
 	}
 
 	private JSONObject request(URL url) throws ParseException, HTTPStatusException, RateLimitExceededException {

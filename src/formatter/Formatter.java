@@ -1,6 +1,6 @@
 package formatter;
 
-import api.data.APIDataObject;
+import org.json.simple.JSONObject;
 
 /**
  * The interface Formatter.
@@ -12,7 +12,7 @@ public interface Formatter {
 	 *
 	 * @param obj the obj
 	 */
-	void add(APIDataObject obj);
+	void add(JSONObject obj);
 
 	/**
 	 * Sets file the data is written to.

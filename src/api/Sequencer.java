@@ -1,8 +1,8 @@
 package api;
 
-import api.data.APIDataObject;
 import exception.HTTPStatusException;
 import exception.RateLimitExceededException;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.net.MalformedURLException;
@@ -42,7 +42,7 @@ public class Sequencer {
 	 * @return the api data object
 	 * @throws HTTPStatusException the http status exception
 	 */
-	public APIDataObject next() throws ParseException, HTTPStatusException, MalformedURLException, RateLimitExceededException {
+	public JSONObject next() throws ParseException, HTTPStatusException, MalformedURLException, RateLimitExceededException {
 		nextCounter++;
 		// If a requestcap is set and they are reached, return null to indicate end of Sequencer.
 		if ((requestCap != 0 && amountOfRequests > requestCap))
@@ -54,6 +54,15 @@ public class Sequencer {
 
 		amountOfRequests++;
 		return requester.request(endpoint, args);
+	}
+
+	/**
+	 * Decrement arguments.
+	 */
+	public void decrementArguments() {
+		for (int i = 0; i < args.size(); i++) {
+			args.set(i, args.get(i) - 1);
+		}
 	}
 
 	/**
