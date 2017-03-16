@@ -54,7 +54,11 @@ public class Requester {
 
 			InputStream in = connection.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-			return (JSONObject) new JSONParser().parse(reader.readLine());
+			JSONObject result = (JSONObject) new JSONParser().parse(reader.readLine());
+			in.close();
+			reader.close();
+			connection.disconnect();
+			return result;
 		} catch (IOException e) {
 			if (code == 429)
 				throw new RateLimitExceededException(e.getMessage(), Integer.parseInt(connection.getHeaderField("Retry-After")));

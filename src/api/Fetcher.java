@@ -14,13 +14,13 @@ import java.util.ArrayList;
  * The type Fetcher.
  * A Fetcher uses  a Sequencer to get APIDataObjects from the Riot API.
  */
-public class Fetcher extends Thread {
+public class Fetcher {
 
 	private ArrayList<Filter> filters;
 	private Sequencer sequencer;
 	private Formatter formatter;
 
-	private long startTime, endTime, sequenceTime = 0;
+	private long startTime, endTime;
 	private int numberOfResults = 0, resultCap = 0;
 
 	private boolean statusUpdates = false;
@@ -40,7 +40,9 @@ public class Fetcher extends Thread {
 		this.resultCap = resultCap;
 	}
 
-	@Override
+	/**
+	 * Runs the Fetcher.
+	 */
 	public void run() {
 		startTime = System.currentTimeMillis();
 
@@ -62,7 +64,7 @@ public class Fetcher extends Thread {
 		 */
 
 		while (numberOfResults < resultCap) {
-			if (numberOfResults % updateInterval == 0) {
+			if (numberOfResults % updateInterval == 0 && statusUpdates) {
 				System.out.println("Fetcher has fetched " + numberOfResults + "/" + resultCap + " results (" + Math.round((double)numberOfResults/(double)resultCap*100) + "%)");
 			}
 			try {
