@@ -64,7 +64,7 @@ public class Fetcher {
 		 */
 
 		while (numberOfResults < resultCap) {
-			if (numberOfResults % updateInterval == 0 && statusUpdates) {
+			if (statusUpdates && numberOfResults % updateInterval == 0) {
 				System.out.println("Fetcher has fetched " + numberOfResults + "/" + resultCap + " results (" + Math.round((double)numberOfResults/(double)resultCap*100) + "%)");
 			}
 			try {

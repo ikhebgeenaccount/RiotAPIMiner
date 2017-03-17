@@ -56,7 +56,8 @@ public class GamemodeFilter implements Filter {
 	 *
 	 * @param gamemode the gamemode
 	 */
-	public void addGamemode(String gamemode) {
+	public GamemodeFilter addGamemode(String gamemode) {
 		gamemodes.add(gamemode);
+		return this;
 	}
 }
