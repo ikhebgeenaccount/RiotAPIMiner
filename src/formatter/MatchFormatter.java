@@ -1,24 +1,14 @@
 package formatter;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * The type Match formatter.
  */
-public class MatchFormatter implements Formatter {
-
-	private String fileName;
-	private File file;
-	private FileWriter fileWriter;
-
-	private int writeAmount = 0;
-
-	private String output;
-	private int outputCounter;
+public class MatchFormatter extends DefaultFormatter {
 
 	/**
 	 * Instantiates a new Match formatter.
@@ -26,14 +16,7 @@ public class MatchFormatter implements Formatter {
 	 * @param fileName the file name
 	 */
 	public MatchFormatter(String fileName) {
-		setFile(fileName);
-		file = new File(fileName);
-		output = "";
-		try {
-			fileWriter = new FileWriter(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		super(fileName);
 	}
 
 	/**
@@ -43,49 +26,51 @@ public class MatchFormatter implements Formatter {
 	 * @param writeAmount the write amount
 	 */
 	public MatchFormatter(String fileName, int writeAmount) {
-		this(fileName);
-		setWriteAmount(writeAmount);
+		super(fileName, writeAmount);
 	}
 
 	@Override
-	public void add(JSONObject obj) {
-		output += formatJSONObject(obj) + "\n";
-		outputCounter++;
-
-		if (outputCounter > writeAmount) {
-			try {
-				fileWriter.append(output);
-				fileWriter.flush();
-				output = "";
-				outputCounter = 0;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private String formatJSONObject(JSONObject obj) {
+	public String formatJSONObject(JSONObject obj) {
 		String result = "";
 
 		result += obj.get("matchId") + ",";
 		result += obj.get("matchVersion") + ",";
-		result += obj.get("platformId") + ",";
 		result += obj.get("region") + ",";
+		result += obj.get("queueType") + ",";
 		result += obj.get("mapId") + ",";
 		result += obj.get("matchMode") + ",";
 		result += obj.get("matchDuration") + ",";
-		result += obj.get("queueType");
+
+		HashMap<Integer, String> participantsumm = new HashMap<>();
+
+		JSONArray participantIds = (JSONArray)obj.get("participantIdentities");
+
+		for (int i = 0; i < participantIds.size(); i++) {
+			int id = (Integer)((JSONObject)participantIds.get(i)).get("participantId");
+			String pid = (String)((JSONObject)((JSONObject)participantIds.get(i)).get("player")).get("summonerId");
+
+			participantsumm.put(id, pid);
+		}
+
+		JSONArray participants = (JSONArray)obj.get("participants");
+
+		String allps = "[";
+
+		for (int i = 0; i < participants.size(); i++) {
+			JSONObject participant = (JSONObject)participants.get(i);
+			String ps = "{";
+
+			// Summoner id
+			ps += participantsumm.get(participant.get("participantId")) + ",";
+
+
+			allps += ps + (i < participants.size() - 1 ? "," : "");
+		}
+
+		allps += "]";
+
+		result += allps;
 
 		return result;
-	}
-
-	@Override
-	public void setFile(String fileName) {
-		this.fileName = fileName;
-	}
-
-	@Override
-	public void setWriteAmount(int writeAmount) {
-		this.writeAmount = writeAmount;
 	}
 }

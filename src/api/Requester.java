@@ -1,6 +1,7 @@
 package api;
 
 import exception.HTTPStatusException;
+import exception.InternalServerErrorException;
 import exception.RateLimitExceededException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -13,7 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The type Requester.
@@ -40,11 +41,11 @@ public class Requester {
 	 * @throws ParseException      the parse exception
 	 * @throws HTTPStatusException the http riot api status exception
 	 */
-	public JSONObject request(String endpoint, ArrayList<Long> args) throws ParseException, HTTPStatusException, MalformedURLException, RateLimitExceededException {
+	public JSONObject request(String endpoint, HashMap<String, Object> args) throws ParseException, HTTPStatusException, MalformedURLException, RateLimitExceededException, InternalServerErrorException {
 		return request(new URL(api.getEndpointUrl(endpoint, args)));
 	}
 
-	private JSONObject request(URL url) throws ParseException, HTTPStatusException, RateLimitExceededException {
+	private JSONObject request(URL url) throws ParseException, HTTPStatusException, RateLimitExceededException, InternalServerErrorException {
 		HttpsURLConnection connection = null;
 		int code = 200;
 		try {
@@ -62,6 +63,8 @@ public class Requester {
 		} catch (IOException e) {
 			if (code == 429)
 				throw new RateLimitExceededException(e.getMessage(), Integer.parseInt(connection.getHeaderField("Retry-After")));
+			else if (code == 500 || code == 503)
+				throw new InternalServerErrorException(e.getMessage(), code);
 			else
 				throw new HTTPStatusException(e.getMessage(), code);
 		}

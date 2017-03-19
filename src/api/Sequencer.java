@@ -1,12 +1,13 @@
 package api;
 
 import exception.HTTPStatusException;
+import exception.InternalServerErrorException;
 import exception.RateLimitExceededException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The type Sequencer.
@@ -15,11 +16,18 @@ public class Sequencer {
 
 	private Requester requester;
 	private String endpoint;
-	private ArrayList<Long> args;
+	private HashMap<String, Object> args;
 
 	private int requestCap = 0;
 	private int amountOfRequests = 0;
 	private int nextCounter = 0;
+
+	/**
+	 * Instantiates a new Sequencer.
+	 */
+	public Sequencer() {
+
+	}
 
 	/**
 	 * Instantiates a new Sequencer.
@@ -29,10 +37,21 @@ public class Sequencer {
 	 * @param endpoint  the endpoint
 	 * @param startArgs the start args
 	 */
-	public Sequencer(Requester requester, String endpoint, ArrayList<Long> startArgs) {
+	public Sequencer(Requester requester, String endpoint, HashMap<String, Object> startArgs) {
 		setRequester(requester);
 		setEndpoint(endpoint);
 		setArgs(startArgs);
+	}
+
+	/**
+	 * Instantiates a new Sequencer.
+	 *
+	 * @param requester the requester
+	 * @param endpoint  the endpoint
+	 */
+	public Sequencer(Requester requester, String endpoint) {
+		setRequester(requester);
+		setEndpoint(endpoint);
 	}
 
 	/**
@@ -40,28 +59,36 @@ public class Sequencer {
 	 * Returns null if the Sequencer has ended.
 	 *
 	 * @return the api data object
-	 * @throws HTTPStatusException the http status exception
+	 * @throws ParseException             the parse exception
+	 * @throws HTTPStatusException        the http status exception
+	 * @throws MalformedURLException      the malformed url exception
+	 * @throws RateLimitExceededException the rate limit exceeded exception
 	 */
-	public JSONObject next() throws ParseException, HTTPStatusException, MalformedURLException, RateLimitExceededException {
+	public JSONObject next() throws ParseException, HTTPStatusException, MalformedURLException, RateLimitExceededException, InternalServerErrorException {
 		nextCounter++;
+
 		// If a requestcap is set and they are reached, return null to indicate end of Sequencer.
 		if ((requestCap != 0 && amountOfRequests > requestCap))
 			return null;
 
-		for (int i = 0; i < args.size(); i++) {
-			args.set(i, args.get(i) + 1);
+		JSONObject obj = requester.request(endpoint, args);
+
+		for (String s : args.keySet()) {
+			if (args.get(s) instanceof Long)
+				args.put(s, (Long)args.get(s) + 1);
 		}
 
 		amountOfRequests++;
-		return requester.request(endpoint, args);
+		return obj;
 	}
 
 	/**
 	 * Decrement arguments.
 	 */
 	public void decrementArguments() {
-		for (int i = 0; i < args.size(); i++) {
-			args.set(i, args.get(i) - 1);
+		for (String s : args.keySet()) {
+			if (args.get(s) instanceof Long)
+				args.put(s, (Long)args.get(s) - 1);
 		}
 	}
 
@@ -88,7 +115,7 @@ public class Sequencer {
 	 *
 	 * @return the args
 	 */
-	public ArrayList<Long> getArgs() {
+	public HashMap<String, Object> getArgs() {
 		return args;
 	}
 
@@ -97,7 +124,7 @@ public class Sequencer {
 	 *
 	 * @param args the args
 	 */
-	public void setArgs(ArrayList<Long> args) {
+	public void setArgs(HashMap<String, Object> args) {
 		this.args = args;
 	}
 
@@ -130,6 +157,15 @@ public class Sequencer {
 	}
 
 	/**
+	 * Sets amount of requests.
+	 *
+	 * @param amountOfRequests the amount of requests
+	 */
+	public void setAmountOfRequests(int amountOfRequests) {
+		this.amountOfRequests = amountOfRequests;
+	}
+
+	/**
 	 * Gets endpoint.
 	 *
 	 * @return the endpoint
@@ -154,5 +190,14 @@ public class Sequencer {
 	 */
 	public int getNextCounter() {
 		return nextCounter;
+	}
+
+	/**
+	 * Sets next counter.
+	 *
+	 * @param nextCounter the next counter
+	 */
+	public void setNextCounter(int nextCounter) {
+		this.nextCounter = nextCounter;
 	}
 }

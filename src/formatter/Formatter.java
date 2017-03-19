@@ -14,6 +14,8 @@ public interface Formatter {
 	 */
 	void add(JSONObject obj);
 
+	String formatJSONObject(JSONObject obj);
+
 	/**
 	 * Sets file the data is written to.
 	 *

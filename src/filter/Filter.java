@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 public interface Filter {
 
 	/**
-	 * True if obj passes the Filter, false otherwise.
+	 * Returns true if obj passes the Filter, false otherwise.
 	 *
 	 * @param obj the obj
 	 * @return the boolean

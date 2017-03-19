@@ -1,6 +1,7 @@
 package api;
 
 import exception.HTTPStatusException;
+import exception.InternalServerErrorException;
 import exception.RateLimitExceededException;
 import filter.Filter;
 import formatter.Formatter;
@@ -64,9 +65,6 @@ public class Fetcher {
 		 */
 
 		while (numberOfResults < resultCap) {
-			if (statusUpdates && numberOfResults % updateInterval == 0) {
-				System.out.println("Fetcher has fetched " + numberOfResults + "/" + resultCap + " results (" + Math.round((double)numberOfResults/(double)resultCap*100) + "%)");
-			}
 			try {
 				JSONObject obj = sequencer.next();
 
@@ -83,11 +81,15 @@ public class Fetcher {
 					formatter.add(obj);
 					numberOfResults++;
 				}
+
+				if (statusUpdates && numberOfResults % updateInterval == 0) {
+					System.out.println("Fetcher has fetched " + numberOfResults + "/" + resultCap + " results (" + Math.round((double)numberOfResults/(double)resultCap*100) + "%)");
+				}
 			} catch (HTTPStatusException e) {
 				int code = e.getCode();
 				switch(code) {
-					case 404: // File not found
-						break;
+//					case 404: // File not found
+//						break;
 //					case 429: // Rate limit exceeded
 //						System.out.println("Rate limit exceeded with " + sequencer.getAmountOfRequests() + " in " + Math.round((System.currentTimeMillis() - startTime)/1000) + "s.\nSlowing down.");
 //						sequenceTime = (System.currentTimeMillis() - startTime) / sequencer.getNextCounter();
@@ -105,6 +107,13 @@ public class Fetcher {
 				try {
 					sequencer.decrementArguments();
 					Thread.sleep(e.getSecondsLeftToReset() * 1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+			} catch (InternalServerErrorException e) {
+				try {
+					sequencer.decrementArguments();
+					Thread.sleep(500);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
