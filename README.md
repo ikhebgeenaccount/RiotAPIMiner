@@ -11,11 +11,12 @@ Below a simple example that fetches 15000 games from the Riot API.
 	// Instantiate a Requester on the api
 	Requester requester = new Requester(api);
 
-	// Create a list with enough arguments corresponding to the used endpoint
-	// In the case of the match endpoint, 1 argument
-	ArrayList<Long> arguments = new ArrayList<>();
-	// Since we are going to fetch matches, we need a match id to start from
-	arguments.add(3103888982L);
+    // Create a HashMap with the necessary arguments and add optional arguments
+    // if you want to
+    HashMap<String, Object> arguments = new HashMap<>();
+    // For the Match endpoint there is one argument that must be provided, the matchId. Since
+    // we are going to get lots of matches, we need a matchId to start from.
+    arguments.put("matchId", 3103888982L);
 
 	// Create a Sequencer to request the data with
 	Sequencer sequencer = new Sequencer(requester, "match", arguments);
