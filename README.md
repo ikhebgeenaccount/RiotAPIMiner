@@ -6,7 +6,10 @@ Riot API Miner aims to offer an easy-to-use library to get lots of data from the
 
 Below a simple example that fetches 15000 games from the Riot API.
 
-    // Create a new RiotAPI that will get its data from euw
+    // This example is NOT compatible with any released builds, it only
+	// represents the current status of branch dev
+	
+	// Create a new RiotAPI that will get its data from euw
 	RiotAPI api = new RiotAPI(API_KEY, "euw");
 	// Instantiate a Requester on the api
 	Requester requester = new Requester(api);
