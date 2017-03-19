@@ -3,7 +3,6 @@ package api;
 import exception.UnknownRegionException;
 import exception.UnkownEndpointException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -98,35 +97,42 @@ public class RiotAPI {
 	/**
 	 * Gets champion end point url.
 	 * Allowed arguments:
-	 * - championId
+	 * o championId : int
+	 * o freeToPlay : boolean
 	 *
 	 * @param args the args
 	 * @return the champion end point url
 	 */
 	public String getChampionEndpointURL(HashMap<String, Object> args) {
-		long championId = (Long)args.get("championId");
-		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v1.2/champion/" + championId + "&" + getKeyQuery();
+		int championId = (args.containsKey("championId") ? (Integer)args.get("championId") : -1);
+		boolean freeToPlay = (args.containsKey("freeToPlay") ? (Boolean) args.get("freeToPlay") : false);
+		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v1.2/champion" + (championId == -1 ? "" : "/" + championId) + "?" + getKeyQuery() + (freeToPlay ? "&freeToPlay=true" : "" );
 	}
 
 	/**
 	 * Gets champion mastery endpoint url.
 	 * Allowed arguments:
-	 * - playerId
-	 * o championId
+	 * - playerId : long
+	 * o championId : int
+	 * o count : int
 	 *
 	 * @param args the args
 	 * @return the champion mastery endpoint url
 	 */
 	public String getChampionMasteryEndpointURL(HashMap<String, Object> args) {
 		long playerId = (Long)args.get("playerId");
-		long championId = (args.containsKey("championId") ? (Long)args.get("championId") : -1);
-		return getBaseURL() + "/championmastery/location/" + getRegion().toUpperCase() + "/player/" + playerId + (championId == -1 ? "/champions" : "/champion/" + championId) + "?" + getKeyQuery();
+		int championId = (args.containsKey("championId") ? (Integer)args.get("championId") : -1);
+		int count = (args.containsKey("count") ? (Integer)args.get("count") : -1);
+		if (count == -1)
+			return getBaseURL() + "/championmastery/location/" + getRegion().toUpperCase() + "/player/" + playerId + (championId == -1 ? "/champions" : "/champion/" + championId) + "?" + getKeyQuery();
+		else
+			return getBaseURL() + "/championmastery/location/" + getRegion().toUpperCase() + "/player/" + playerId + "/topchampions" + "?" + getKeyQuery() + "&" + "count=" + count;
 	}
 
 	/**
 	 * Gets current game endpoint url.
 	 * Allowed arguments:
-	 * - summonerId
+	 * - summonerId : long
 	 *
 	 * @param args the args
 	 * @return the current game endpoint url
@@ -150,7 +156,7 @@ public class RiotAPI {
 	/**
 	 * Gets game endpoint url.
 	 * Allowed arguments:
-	 * - summonerId
+	 * - summonerId : long
 	 *
 	 * @param args the args
 	 * @return the game endpoint url
@@ -163,7 +169,7 @@ public class RiotAPI {
 	/**
 	 * Gets league endpoint url.
 	 * Allowed arguments:
-	 * - summonerid
+	 * - summonerid : long
 	 *
 	 * @param args the args
 	 * @return the league endpoint url
@@ -176,7 +182,7 @@ public class RiotAPI {
 	/**
 	 * Gets league entry endpoint url.
 	 * Allowed arguments:
-	 * - summonerId
+	 * - summonerId : long
 	 *
 	 * @param args the args
 	 * @return the league entry endpoint url
@@ -193,8 +199,18 @@ public class RiotAPI {
 	 * If any other value is provided either a 404 or a 500 HTTPStatusException will be thrown.
 	 * Check the Lol-Static-Data endpoint documentation for the most up-to-date endpoints.
 	 * Allowed arguments:
-	 * - type
-	 * o id
+	 * - type : String
+	 * o id : long
+	 * o version : String
+	 * o dataById : boolean
+	 * o champData : String
+	 * o itemData : String
+	 * o masteryData : String
+	 * o masteryListData : String
+	 * o runeData : String
+	 * o runeListData : String
+	 * o spellData : String
+	 * o locale : String
 	 *
 	 * @param args the args
 	 * @return the lol static data endpoint url
@@ -202,44 +218,70 @@ public class RiotAPI {
 	public String getLolStaticDataEndpointURL(HashMap<String, Object> args) {
 		String type = (String)args.get("type");
 		long id = (args.containsKey("id") ? (Long)args.get("id") : -1);
-		return "https://global.api.pvp.net/api/lol/static-data/" + getRegion().toUpperCase() + "/v1.2/" + type.toLowerCase() + (id == -1 ? "" : id) + "?" + getKeyQuery();
+		String version = (args.containsKey("version") ? (String)args.get("version") : "");
+		boolean dataById = (args.containsKey("dataById") ? (Boolean)args.get("dataById") : false);
+		String champData = (args.containsKey("champData") ? (String)args.get("champData") : "");
+		String itemData = (args.containsKey("itemData") ? (String)args.get("itemData") : "");
+		String masteryData = (args.containsKey("masteryData") ? (String)args.get("masteryData") : "");
+		String masteryListData = (args.containsKey("masteryListData") ? (String)args.get("masteryListData") : "");
+		String runeData = (args.containsKey("runeData") ? (String)args.get("runeData") : "");
+		String runeListData = (args.containsKey("runeListData") ? (String)args.get("runeListData") : "");
+		String spellData = (args.containsKey("spellData") ? (String)args.get("spellData") : "");
+		String locale = (args.containsKey("locale") ? (String)args.get("locale") : "");
+		return "https://global.api.pvp.net/api/lol/static-data/" + getRegion().toUpperCase() + "/v1.2/" + type.toLowerCase() + (id == -1 ? "" : id)
+				+ "?" + getKeyQuery()
+				+ (version.equals("") ? "" : "&version=" + version)
+				+ (champData.equals("") ? "" : "&champData=" + champData)
+				+ (itemData.equals("") ? "" : "&itemData=" + itemData)
+				+ (masteryData.equals("") ? "" : "&masteryData=" + masteryData)
+				+ (masteryListData.equals("") ? "" : "&masteryListData=" + masteryListData)
+				+ (runeData.equals("") ? "" : "&runeData=" + runeData)
+				+ (runeListData.equals("") ? "" : "&runeListData=" + runeListData)
+				+ (spellData.equals("") ? "" : "&spellData=" + spellData)
+				+ (locale.equals("") ? "" : "&locale=" + locale)
+				+ (dataById ? "&dataById=true" : "");
 	}
 
 	/**
 	 * Returns the Lol-Status endpoint URL.
 	 * Set the isShard argument to true to get the 'shard' URL, set it to false to get the 'shards' URL.
+	 * Allowed arguments:
+	 * - isShard : boolean
 	 *
-	 * @param isShard the is shard
+	 * @param args the args
 	 * @return the lol status endpoint url
 	 */
-	public String getLolStatusEndpointURL(boolean isShard) {
+	public String getLolStatusEndpointURL(HashMap<String, Object> args) {
+		boolean isShard = (Boolean)args.get("isShard");
 		return getBaseURL() + "/lol/status/v1/shard" + (isShard ? "" : "s") + "?" + getKeyQuery();
 	}
 
 	/**
 	 * Gets match endpoint url.
 	 * Allowed arguments:
-	 * - matchId
+	 * - matchId : long
+	 * o includeTimeline : boolean
 	 *
 	 * @param args the args
 	 * @return the match endpoint url
 	 */
 	public String getMatchEndpointURL(HashMap<String, Object> args) {
 		long matchId = (Long)args.get("matchId");
-		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v2.2/match/" + matchId + "?" + getKeyQuery();
+		boolean includeTimeline = (args.containsKey("includeTimeline") ? (Boolean)args.get("includeTimeline") : false);
+		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v2.2/match/" + matchId + "?" + getKeyQuery() + (includeTimeline ? "&includeTimeline=true" : "&includeTimeline=false");
 	}
 
 	/**
 	 * Gets match list endpoint url.
 	 * Allowed arguments:
-	 * - summonerId
-	 * o rankedQueues
-	 * o beginTime
-	 * o endTime
-	 * o beginIndex
-	 * o endIndex
-	 * o seasons
-	 * o championIds
+	 * - summonerId : long
+	 * o rankedQueues : String
+	 * o beginTime : long
+	 * o endTime : long
+	 * o beginIndex : int
+	 * o endIndex : int
+	 * o seasons : String
+	 * o championIds : String
 	 *
 	 * @param args the args
 	 * @return the match list endpoint url
@@ -253,13 +295,21 @@ public class RiotAPI {
 		int beginIndex = (args.containsKey("beginIndex") ? (Integer)args.get("beginIndex") : -1);
 		String seasons = (args.containsKey("seasons") ? (String)args.get("seasons") : "");
 		String championIds = (args.containsKey("championIds") ? (String)args.get("championIds") : "");
-		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v2.2/matchlist/by-summoner/" + summonerId + "?" + getKeyQuery();
+		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v2.2/matchlist/by-summoner/" + summonerId
+				+ "?" + getKeyQuery()
+				+ (rankedQueues.equals("") ? "" : "&rankedQueues=" + rankedQueues)
+				+ (endTime == -1 ? "" : "&endTime=" + endTime)
+				+ (endIndex == -1 ? "" : "&endIndex=" + endIndex)
+				+ (beginTime == -1 ? "" : "&beginTime=" + beginTime)
+				+ (beginIndex == -1 ? "" : "&beginIndex=" + beginIndex)
+				+ (seasons.equals("") ? "" : "&seasons=" + seasons)
+				+ (championIds.equals("") ? "" : "&championIds=" + championIds);
 	}
 
 	/**
 	 * Gets masteries endpoint url.
 	 * Allowed arguments:
-	 * - summonerId
+	 * - summonerId : long
 	 *
 	 * @param args the args
 	 * @return the masteries endpoint url
@@ -272,7 +322,7 @@ public class RiotAPI {
 	/**
 	 * Gets runes endpoint url.
 	 * Allowed arguments:
-	 * - summonerId
+	 * - summonerId : long
 	 *
 	 * @param args the args
 	 * @return the runes endpoint url
@@ -285,33 +335,37 @@ public class RiotAPI {
 	/**
 	 * Gets ranked stats endpoint url.
 	 * Allowed arguments:
-	 * - summonerId
+	 * - summonerId : long
+	 * o season : String
 	 *
 	 * @param args the args
 	 * @return the ranked stats endpoint url
 	 */
 	public String getRankedStatsEndpointURL(HashMap<String, Object> args) {
 		long summonerId = (Long)args.get("summonerId");
-		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v1.3/stats/by-summoner/" + summonerId + "/ranked?" + getKeyQuery();
+		String season = (args.containsKey("season") ? (String)args.get("season") : "");
+		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v1.3/stats/by-summoner/" + summonerId + "/ranked?" + getKeyQuery() + (season.equals("") ? "" : "&season=" + season);
 	}
 
 	/**
 	 * Gets summary stats endpoint url.
 	 * Allowed arguments:
-	 * - summonerId
+	 * - summonerId : long
+	 * o season : String
 	 *
 	 * @param args the args
 	 * @return the summary stats endpoint url
 	 */
 	public String getSummaryStatsEndpointURL(HashMap<String, Object> args) {
 		long summonerId = (Long)args.get("summonerId");
-		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v1.3/stats/by-summoner/" + summonerId + "/summary?" + getKeyQuery();
+		String season = (args.containsKey("season") ? (String)args.get("season") : "");
+		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v1.3/stats/by-summoner/" + summonerId + "/summary?" + getKeyQuery() + (season.equals("") ? "" : "&season=" + season);
 	}
 
 	/**
 	 * Gets summoner endpoint url.
 	 * Allowed arguments:
-	 * - summonerId
+	 * - summonerId : long
 	 *
 	 * @param args the args
 	 * @return the summoner endpoint url
@@ -324,30 +378,32 @@ public class RiotAPI {
 	/**
 	 * Gets summoner by account endpoint url.
 	 * Allowed arguments:
-	 * - accountId
+	 * - accountId : String
 	 *
 	 * @param args the args
 	 * @return the summoner by account endpoint url
 	 */
 	public String getSummonerByAccountEndpointURL(HashMap<String, Object> args) {
-		long accountId = (Long)args.get("accountId");
+		String accountId = (String)args.get("accountId");
 		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v1.4/summoner/by-account/" + accountId + "?" + getKeyQuery();
 	}
 
 	/**
 	 * Gets summoner by name endpoint url.
+	 * - summonerName : String
 	 *
-	 * @param summName the summ name
+	 * @param args the args
 	 * @return the summoner by name endpoint url
 	 */
-	public String getSummonerByNameEndpointURL(String summName) {
-		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v1.4/summoner/by-name/" + summName + "?" + getKeyQuery();
+	public String getSummonerByNameEndpointURL(HashMap<String, Object> args) {
+		String summonerName = (String)args.get("summonerName");
+		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v1.4/summoner/by-name/" + summonerName + "?" + getKeyQuery();
 	}
 
 	/**
 	 * Gets summoner name endpoint url.
 	 * Allowed arguments:
-	 * - summonerId
+	 * - summonerId : long
 	 *
 	 * @param args the args
 	 * @return the summoner name endpoint url
@@ -355,15 +411,6 @@ public class RiotAPI {
 	public String getSummonerNameEndpointURL(HashMap<String, Object> args) {
 		long summonerId = (Long)args.get("summonerId");
 		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v1.4/summoner/" + summonerId + "/name?" + getKeyQuery();
-	}
-
-	public String getSummonerNameEndpointURL(ArrayList<Long> summonerId) {
-		String ids = summonerId.get(0).toString();
-
-		for (int i = 1; i < summonerId.size(); i++) {
-			ids += "," + summonerId.get(i);
-		}
-		return getBaseURL() + "/api/lol/" + getRegion().toUpperCase() + "/v1.4/summoner/" + ids + "/name?" + getKeyQuery();
 	}
 
 	/**
