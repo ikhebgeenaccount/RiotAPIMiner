@@ -6,27 +6,27 @@ Riot API Miner aims to offer an easy-to-use library to get lots of data from the
 
 The following Riot API endpoints are supported:
 
-Endpoint | Version | Identifier
--------- | -------
-champion | 1.2 | champion
-championmastery | N/A | championmastery
-current-game | 1.0 | currentgame
-featured-games | 1.0 | featuredgames
-game | 1.3 | game
-league | 2.5 | league
-| | league-entry
-lol-static-data | 1.2 | lolstaticdata
-lol-status | 1.0 | lolstatus
-match | 2.2 | match
-matchlist | 2.2 | matchlist
-runes-masteries | 1.4 | masteries
-| | runes
-stats | 1.3 | rankedstats
-| | summarystats
-summoner | 1.4 | summoner
-| | summoner-by-account
-| | summoner-by-name
-| | summonername
+Endpoint | Version | Identifier  
+-------- | -------:  | ---
+champion | 1.2 | champion  
+championmastery | N/A | championmastery  
+current-game | 1.0 | currentgame  
+featured-games | 1.0 | featuredgames  
+game | 1.3 | game  
+league | 2.5 | league  
+| | | league-entry  
+lol-static-data | 1.2 | lolstaticdata  
+lol-status | 1.0 | lolstatus  
+match | 2.2 | match  
+matchlist | 2.2 | matchlist  
+runes-masteries | 1.4 | masteries  
+| | | runes  
+stats | 1.3 | rankedstats  
+| | | summarystats  
+summoner | 1.4 | summoner  
+| | | summoner-by-account  
+| | | summoner-by-name  
+| | | summonername  
 
 ## Example
 
