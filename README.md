@@ -1,32 +1,6 @@
 # RiotAPIMiner
 
-Riot API Miner aims to offer an easy-to-use library to get lots of data from the Riot API. 
-
-## Supported endpoints
-
-The following Riot API endpoints are supported:
-
-Endpoint | Version | Identifier  
--------- | -------:  | ---
-champion | 1.2 | champion  
-championmastery | N/A | championmastery  
-current-game | 1.0 | currentgame  
-featured-games | 1.0 | featuredgames  
-game | 1.3 | game  
-league | 2.5 | league  
-| | | league-entry  
-lol-static-data | 1.2 | lolstaticdata  
-lol-status | 1.0 | lolstatus  
-match | 2.2 | match  
-matchlist | 2.2 | matchlist  
-runes-masteries | 1.4 | masteries  
-| | | runes  
-stats | 1.3 | rankedstats  
-| | | summarystats  
-summoner | 1.4 | summoner  
-| | | summoner-by-account  
-| | | summoner-by-name  
-| | | summonername  
+Riot API Miner aims to offer an easy-to-use library to get lots of data from the Riot API.  
 
 ## Example
 
@@ -87,6 +61,32 @@ Several default Formatters are included.
 #### Creating your own Formatters
 
 To create your own Formatter you can create a class that extends the DefaultFormatter class.
+
+## Supported endpoints
+
+The following Riot API endpoints are supported:
+
+Endpoint | Version | Identifier  
+-------- | -------:  | ---
+champion | 1.2 | champion  
+championmastery | N/A | championmastery  
+current-game | 1.0 | currentgame  
+featured-games | 1.0 | featuredgames  
+game | 1.3 | game  
+league | 2.5 | league  
+| | | league-entry  
+lol-static-data | 1.2 | lolstaticdata  
+lol-status | 1.0 | lolstatus  
+match | 2.2 | match  
+matchlist | 2.2 | matchlist  
+runes-masteries | 1.4 | masteries  
+| | | runes  
+stats | 1.3 | rankedstats  
+| | | summarystats  
+summoner | 1.4 | summoner  
+| | | summoner-by-account  
+| | | summoner-by-name  
+| | | summonername 
 
 ## Disclaimer
 Riot API Miner isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
