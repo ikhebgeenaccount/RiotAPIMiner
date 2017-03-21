@@ -82,9 +82,9 @@ public class Fetcher {
 					numberOfResults++;
 				}
 
-				if (statusUpdates && numberOfResults % updateInterval == 0) {
+				if (statusUpdates && numberOfResults % updateInterval == 0)
 					System.out.println("Fetcher has fetched " + numberOfResults + "/" + resultCap + " results (" + Math.round((double)numberOfResults/(double)resultCap*100) + "%)");
-				}
+
 			} catch (HTTPStatusException e) {
 				int code = e.getCode();
 				switch(code) {
@@ -119,6 +119,9 @@ public class Fetcher {
 				}
 			}
 		}
+
+		if (statusUpdates)
+			System.out.println("Fetcher has fetched " + numberOfResults + "/" + resultCap + " results (" + Math.round((double)numberOfResults/(double)resultCap*100) + "%)");
 
 		endTime = System.currentTimeMillis();
 	}
@@ -184,5 +187,95 @@ public class Fetcher {
 	 */
 	public void setUpdateInterval(int updateInterval) {
 		this.updateInterval = updateInterval;
+	}
+
+	/**
+	 * Gets filters.
+	 *
+	 * @return the filters
+	 */
+	public ArrayList<Filter> getFilters() {
+		return filters;
+	}
+
+	/**
+	 * Sets filters.
+	 *
+	 * @param filters the filters
+	 */
+	public void setFilters(ArrayList<Filter> filters) {
+		this.filters = filters;
+	}
+
+	/**
+	 * Gets sequencer.
+	 *
+	 * @return the sequencer
+	 */
+	public Sequencer getSequencer() {
+		return sequencer;
+	}
+
+	/**
+	 * Sets sequencer.
+	 *
+	 * @param sequencer the sequencer
+	 */
+	public void setSequencer(Sequencer sequencer) {
+		this.sequencer = sequencer;
+	}
+
+	/**
+	 * Gets formatter.
+	 *
+	 * @return the formatter
+	 */
+	public Formatter getFormatter() {
+		return formatter;
+	}
+
+	/**
+	 * Sets formatter.
+	 *
+	 * @param formatter the formatter
+	 */
+	public void setFormatter(Formatter formatter) {
+		this.formatter = formatter;
+	}
+
+	/**
+	 * Gets result cap.
+	 *
+	 * @return the result cap
+	 */
+	public int getResultCap() {
+		return resultCap;
+	}
+
+	/**
+	 * Sets result cap.
+	 *
+	 * @param resultCap the result cap
+	 */
+	public void setResultCap(int resultCap) {
+		this.resultCap = resultCap;
+	}
+
+	/**
+	 * Get status updates boolean.
+	 *
+	 * @return the boolean
+	 */
+	public boolean getStatusUpdates() {
+		return statusUpdates;
+	}
+
+	/**
+	 * Gets update interval.
+	 *
+	 * @return the update interval
+	 */
+	public int getUpdateInterval() {
+		return updateInterval;
 	}
 }

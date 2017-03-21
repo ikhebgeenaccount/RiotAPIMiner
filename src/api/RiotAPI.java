@@ -200,7 +200,7 @@ public class RiotAPI {
 	 * Check the Lol-Static-Data endpoint documentation for the most up-to-date endpoints.
 	 * Allowed arguments:
 	 * - type : String
-	 * o id : long
+	 * o id : int
 	 * o version : String
 	 * o dataById : boolean
 	 * o champData : String
@@ -217,7 +217,7 @@ public class RiotAPI {
 	 */
 	public String getLolStaticDataEndpointURL(HashMap<String, Object> args) {
 		String type = (String)args.get("type");
-		long id = (args.containsKey("id") ? (Long)args.get("id") : -1);
+		int id = (args.containsKey("id") ? (Integer)args.get("id") : -1);
 		String version = (args.containsKey("version") ? (String)args.get("version") : "");
 		boolean dataById = (args.containsKey("dataById") ? (Boolean)args.get("dataById") : false);
 		String champData = (args.containsKey("champData") ? (String)args.get("champData") : "");
@@ -228,7 +228,7 @@ public class RiotAPI {
 		String runeListData = (args.containsKey("runeListData") ? (String)args.get("runeListData") : "");
 		String spellData = (args.containsKey("spellData") ? (String)args.get("spellData") : "");
 		String locale = (args.containsKey("locale") ? (String)args.get("locale") : "");
-		return "https://global.api.pvp.net/api/lol/static-data/" + getRegion().toUpperCase() + "/v1.2/" + type.toLowerCase() + (id == -1 ? "" : id)
+		return "https://global.api.pvp.net/api/lol/static-data/" + getRegion().toUpperCase() + "/v1.2/" + type.toLowerCase() + (id == -1 ? "" : "/" + id)
 				+ "?" + getKeyQuery()
 				+ (version.equals("") ? "" : "&version=" + version)
 				+ (champData.equals("") ? "" : "&champData=" + champData)

@@ -46,7 +46,7 @@ public class FixedArgumentSequencer extends Sequencer {
 		HashMap<String, Object> args = new HashMap<>();
 
 		for (String s : fixedArguments.keySet()) {
-			args.put(s, fixedArguments.get(s).get(getNextCounter()));
+			args.put(s, fixedArguments.get(s).get(getNextCounter() % fixedArguments.get(s).size()));
 		}
 
 		setNextCounter(getNextCounter() + 1);

@@ -40,7 +40,7 @@ Below a simple example that fetches 15000 games from the Riot API.
 	
 ### Filtering
 
-It is also possible to filter the data. You can filter for example certain champions or gamemodes. It is also possible to easily create your own filters.
+It is also possible to filter the data. You can filter for example certain champions or patches. It is also possible to easily create your own patches.
 
 Expanding above example to only return ARAM games:
 
