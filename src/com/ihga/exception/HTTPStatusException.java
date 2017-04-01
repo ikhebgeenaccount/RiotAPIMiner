@@ -1,14 +1,14 @@
-package exception;
+package com.ihga.exception;
 
 /**
- * The type Http status exception.
+ * The type Http status com.ihga.exception.
  */
 public class HTTPStatusException extends Exception {
 
 	private int code;
 
 	/**
-	 * Instantiates a new Http status exception.
+	 * Instantiates a new Http status com.ihga.exception.
 	 *
 	 * @param s the s
 	 */
@@ -17,7 +17,7 @@ public class HTTPStatusException extends Exception {
 	}
 
 	/**
-	 * Instantiates a new Http status exception.
+	 * Instantiates a new Http status com.ihga.exception.
 	 *
 	 * @param s    the s
 	 * @param code the code

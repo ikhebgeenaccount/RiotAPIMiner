@@ -1,4 +1,4 @@
-package exception;
+package com.ihga.exception;
 
 public class UnknownRegionException extends RuntimeException {
 

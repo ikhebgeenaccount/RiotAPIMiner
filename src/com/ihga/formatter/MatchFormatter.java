@@ -1,4 +1,4 @@
-package formatter;
+package com.ihga.formatter;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -6,12 +6,12 @@ import org.json.simple.JSONObject;
 import java.util.HashMap;
 
 /**
- * The type Match formatter.
+ * The type Match com.ihga.formatter.
  */
 public class MatchFormatter extends DefaultFormatter {
 
 	/**
-	 * Instantiates a new Match formatter.
+	 * Instantiates a new Match com.ihga.formatter.
 	 *
 	 * @param fileName the file name
 	 */
@@ -20,7 +20,7 @@ public class MatchFormatter extends DefaultFormatter {
 	}
 
 	/**
-	 * Instantiates a new Match formatter.
+	 * Instantiates a new Match com.ihga.formatter.
 	 *
 	 * @param fileName    the file name
 	 * @param writeAmount the write amount

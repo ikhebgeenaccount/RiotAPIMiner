@@ -1,25 +1,25 @@
-package filter;
+package com.ihga.filter;
 
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
 /**
- * The type Gamemode filter.
+ * The type Gamemode com.ihga.filter.
  */
 public class GamemodeFilter implements Filter {
 
 	private ArrayList<String> gamemodes;
 
 	/**
-	 * Instantiates a new Gamemode filter.
+	 * Instantiates a new Gamemode com.ihga.filter.
 	 */
 	public GamemodeFilter() {
 		this.gamemodes = new ArrayList<>();
 	}
 
 	/**
-	 * Instantiates a new Gamemode filter.
+	 * Instantiates a new Gamemode com.ihga.filter.
 	 *
 	 * @param gamemode the gamemode
 	 */
@@ -29,7 +29,7 @@ public class GamemodeFilter implements Filter {
 	}
 
 	/**
-	 * Instantiates a new Gamemode filter.
+	 * Instantiates a new Gamemode com.ihga.filter.
 	 *
 	 * @param gamemodes the gamemodes
 	 */

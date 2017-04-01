@@ -1,10 +1,10 @@
-package api;
+package com.ihga.api;
 
-import exception.HTTPStatusException;
-import exception.InternalServerErrorException;
-import exception.RateLimitExceededException;
-import filter.Filter;
-import formatter.Formatter;
+import com.ihga.exception.HTTPStatusException;
+import com.ihga.exception.InternalServerErrorException;
+import com.ihga.exception.RateLimitExceededException;
+import com.ihga.filter.Filter;
+import com.ihga.formatter.Formatter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
@@ -31,7 +31,7 @@ public class Fetcher {
 	 * Instantiates a new Fetcher.
 	 *
 	 * @param sequencer the sequencer
-	 * @param formatter the formatter
+	 * @param formatter the com.ihga.formatter
 	 * @param resultCap the result cap
 	 */
 	public Fetcher(Sequencer sequencer, Formatter formatter, int resultCap) {
@@ -52,13 +52,13 @@ public class Fetcher {
 			get next result r from sequencer
 
 			ok = true
-			for each filter f in filters
-				if !f.filter(r)
+			for each com.ihga.filter f in filters
+				if !f.com.ihga.filter(r)
 					ok = false
 			end for
 
 			if ok
-				formatter.add(r)
+				com.ihga.formatter.add(r)
 				numberOfResults++
 			end if
 		end while
@@ -129,7 +129,7 @@ public class Fetcher {
 	/**
 	 * Register a Filter.
 	 *
-	 * @param filter the filter
+	 * @param filter the com.ihga.filter
 	 */
 	public void registerFilter(Filter filter) {
 		filters.add(filter);
@@ -226,18 +226,18 @@ public class Fetcher {
 	}
 
 	/**
-	 * Gets formatter.
+	 * Gets com.ihga.formatter.
 	 *
-	 * @return the formatter
+	 * @return the com.ihga.formatter
 	 */
 	public Formatter getFormatter() {
 		return formatter;
 	}
 
 	/**
-	 * Sets formatter.
+	 * Sets com.ihga.formatter.
 	 *
-	 * @param formatter the formatter
+	 * @param formatter the com.ihga.formatter
 	 */
 	public void setFormatter(Formatter formatter) {
 		this.formatter = formatter;

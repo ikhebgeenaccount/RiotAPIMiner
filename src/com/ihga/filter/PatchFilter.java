@@ -1,25 +1,25 @@
-package filter;
+package com.ihga.filter;
 
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
 /**
- * The type Patch filter.
+ * The type Patch com.ihga.filter.
  */
 public class PatchFilter implements Filter {
 
 	private ArrayList<String> patches;
 
 	/**
-	 * Instantiates a new Gamemode filter.
+	 * Instantiates a new Gamemode com.ihga.filter.
 	 */
 	public PatchFilter() {
 		this.patches = new ArrayList<>();
 	}
 
 	/**
-	 * Instantiates a new Gamemode filter.
+	 * Instantiates a new Gamemode com.ihga.filter.
 	 *
 	 * @param patch the patch
 	 */
@@ -29,7 +29,7 @@ public class PatchFilter implements Filter {
 	}
 
 	/**
-	 * Instantiates a new Gamemode filter.
+	 * Instantiates a new Gamemode com.ihga.filter.
 	 *
 	 * @param patches the patches
 	 */
@@ -42,7 +42,7 @@ public class PatchFilter implements Filter {
 		boolean found = false;
 
 		for (String patch : patches) {
-			if (((String)obj.get("season")).contains(patch)) {
+			if (((String)obj.get("matchVersion")).contains(patch)) {
 				found = true;
 				break;
 			}
@@ -55,7 +55,7 @@ public class PatchFilter implements Filter {
 	 * Add gamemode.
 	 *
 	 * @param patch the patch
-	 * @return the season filter
+	 * @return the season com.ihga.filter
 	 */
 	public PatchFilter addPatch(String patch) {
 		patches.add(patch);

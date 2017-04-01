@@ -1,14 +1,14 @@
-package exception;
+package com.ihga.exception;
 
 /**
- * The type Rate limit exceeded exception.
+ * The type Rate limit exceeded com.ihga.exception.
  */
 public class RateLimitExceededException extends Exception {
 
 	private int secondsLeftToReset;
 
 	/**
-	 * Instantiates a new Rate limit exceeded exception.
+	 * Instantiates a new Rate limit exceeded com.ihga.exception.
 	 *
 	 * @param s                  the s
 	 * @param secondsLeftToReset the seconds left to reset

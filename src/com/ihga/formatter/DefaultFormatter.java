@@ -1,4 +1,4 @@
-package formatter;
+package com.ihga.formatter;
 
 import org.json.simple.JSONObject;
 
@@ -17,14 +17,14 @@ public class DefaultFormatter implements Formatter {
 	private int outputCounter;
 
 	/**
-	 * Instantiates a new Default formatter.
+	 * Instantiates a new Default com.ihga.formatter.
 	 */
 	public DefaultFormatter() {
 
 	}
 
 	/**
-	 * Instantiates a new Match formatter.
+	 * Instantiates a new Match com.ihga.formatter.
 	 *
 	 * @param fileName the file name
 	 */
@@ -40,7 +40,7 @@ public class DefaultFormatter implements Formatter {
 	}
 
 	/**
-	 * Instantiates a new Match formatter.
+	 * Instantiates a new Match com.ihga.formatter.
 	 *
 	 * @param fileName    the file name
 	 * @param writeAmount the write amount

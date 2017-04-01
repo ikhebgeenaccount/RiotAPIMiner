@@ -1,25 +1,25 @@
-package filter;
+package com.ihga.filter;
 
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
 /**
- * The type Season filter.
+ * The type Season com.ihga.filter.
  */
 public class SeasonFilter implements Filter {
 
 	private ArrayList<String> seasons;
 
 	/**
-	 * Instantiates a new Gamemode filter.
+	 * Instantiates a new Gamemode com.ihga.filter.
 	 */
 	public SeasonFilter() {
 		this.seasons = new ArrayList<>();
 	}
 
 	/**
-	 * Instantiates a new Gamemode filter.
+	 * Instantiates a new Gamemode com.ihga.filter.
 	 *
 	 * @param season the season
 	 */
@@ -29,7 +29,7 @@ public class SeasonFilter implements Filter {
 	}
 
 	/**
-	 * Instantiates a new Gamemode filter.
+	 * Instantiates a new Gamemode com.ihga.filter.
 	 *
 	 * @param seasons the seasons
 	 */
@@ -55,7 +55,7 @@ public class SeasonFilter implements Filter {
 	 * Add gamemode.
 	 *
 	 * @param season the season
-	 * @return the season filter
+	 * @return the season com.ihga.filter
 	 */
 	public SeasonFilter addSeason(String season) {
 		seasons.add(season);

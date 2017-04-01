@@ -1,8 +1,8 @@
-package api;
+package com.ihga.api;
 
-import exception.HTTPStatusException;
-import exception.InternalServerErrorException;
-import exception.RateLimitExceededException;
+import com.ihga.exception.HTTPStatusException;
+import com.ihga.exception.InternalServerErrorException;
+import com.ihga.exception.RateLimitExceededException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -26,6 +26,8 @@ public class Requester {
 
 	/**
 	 * Instantiates a new Requester.
+	 *
+	 * @param api the com.ihga.api
 	 */
 	public Requester(RiotAPI api) {
 		this.api = api;
@@ -36,10 +38,12 @@ public class Requester {
 	 *
 	 * @param endpoint the endpoint
 	 * @param args     the args
-	 * @return the api data object
-	 * @throws IOException         the io exception
-	 * @throws ParseException      the parse exception
-	 * @throws HTTPStatusException the http riot api status exception
+	 * @return the com.ihga.api data object
+	 * @throws ParseException               the parse com.ihga.exception
+	 * @throws HTTPStatusException          the http riot com.ihga.api status com.ihga.exception
+	 * @throws MalformedURLException        the malformed url com.ihga.exception
+	 * @throws RateLimitExceededException   the rate limit exceeded com.ihga.exception
+	 * @throws InternalServerErrorException the internal server error com.ihga.exception
 	 */
 	public JSONObject request(String endpoint, HashMap<String, Object> args) throws ParseException, HTTPStatusException, MalformedURLException, RateLimitExceededException, InternalServerErrorException {
 		return request(new URL(api.getEndpointUrl(endpoint, args)));

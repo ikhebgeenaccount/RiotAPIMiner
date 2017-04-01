@@ -1,6 +1,6 @@
 # RiotAPIMiner
 
-Riot API Miner aims to offer an easy-to-use library to get lots of data from the Riot API.  
+Riot API Miner aims to offer an easy-to-use library to get data from the Riot API. It also offers data mining support as several tools are provided to get lots of data from the API.  
 
 ## Example
 
@@ -10,9 +10,9 @@ Below a simple example that fetches 15000 games from the Riot API.
 	// represents the current status of branch dev
 	
 	// Create a new RiotAPI that will get its data from euw
-	RiotAPI api = new RiotAPI(API_KEY, "euw");
-	// Instantiate a Requester on the api
-	Requester requester = new Requester(api);
+	RiotAPI com.ihga.api = new RiotAPI(API_KEY, "euw");
+	// Instantiate a Requester on the com.ihga.api
+	Requester requester = new Requester(com.ihga.api);
 
     // Create a HashMap with the necessary arguments and add optional arguments
     HashMap<String, Object> arguments = new HashMap<>();
@@ -40,7 +40,7 @@ Below a simple example that fetches 15000 games from the Riot API.
 	
 ### Filtering
 
-It is also possible to filter the data. You can filter for example certain champions or patches. It is also possible to easily create your own patches.
+If you don't want every match, but are looking for certain gamemodes or another criterium, you can com.ihga.filter the data to end up with just the data you need. Several filters are included, for example for filtering gamemodes and patches. You can also create your own filters by creating a class that implements the Filter interface.
 
 Expanding above example to only return ARAM games:
 
@@ -48,11 +48,7 @@ Expanding above example to only return ARAM games:
 	fetcher.registerFilter(new GamemodeFilter("ARAM_5x5"));
 	// Then, run the Fetcher
 	fetcher.run();
-	// Now, in our "result.csv" file we will find 15000 ARAMs
-	
-#### Creating your own Filters
-
-To create your own Filter you can create a class that implements the Filter interface.
+	// Now, in our "result.csv" file we will find 15000 ARAMs  
 	
 ### Formatting
 

@@ -1,8 +1,8 @@
-package api;
+package com.ihga.api;
 
-import exception.HTTPStatusException;
-import exception.InternalServerErrorException;
-import exception.RateLimitExceededException;
+import com.ihga.exception.HTTPStatusException;
+import com.ihga.exception.InternalServerErrorException;
+import com.ihga.exception.RateLimitExceededException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
@@ -35,8 +35,8 @@ public class FixedArgumentSequencer extends Sequencer {
 	 * Returns the next APIDataObject in this Sequencer.
 	 * Returns null if the Sequencer has ended.
 	 *
-	 * @return the api data object
-	 * @throws HTTPStatusException the http status exception
+	 * @return the com.ihga.api data object
+	 * @throws HTTPStatusException the http status com.ihga.exception
 	 */
 	public JSONObject next() throws ParseException, HTTPStatusException, MalformedURLException, RateLimitExceededException, InternalServerErrorException {
 		// If a requestcap is set and they are reached, return null to indicate end of Sequencer.

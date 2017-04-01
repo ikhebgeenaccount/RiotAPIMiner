@@ -1,4 +1,4 @@
-package filter;
+package com.ihga.filter;
 
 import org.json.simple.JSONObject;
 
@@ -21,5 +21,5 @@ public interface Filter {
 //	 * @param objs the objs
 //	 * @return the array list
 //	 */
-//	ArrayList<JSONObject> filter(ArrayList<JSONObject> objs);
+//	ArrayList<JSONObject> com.ihga.filter(ArrayList<JSONObject> objs);
 }

@@ -1,4 +1,4 @@
-package formatter;
+package com.ihga.formatter;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

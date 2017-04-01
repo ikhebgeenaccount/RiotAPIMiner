@@ -1,8 +1,8 @@
-package api;
+package com.ihga.api;
 
-import exception.HTTPStatusException;
-import exception.InternalServerErrorException;
-import exception.RateLimitExceededException;
+import com.ihga.exception.HTTPStatusException;
+import com.ihga.exception.InternalServerErrorException;
+import com.ihga.exception.RateLimitExceededException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
@@ -21,13 +21,6 @@ public class Sequencer {
 	private int requestCap = 0;
 	private int amountOfRequests = 0;
 	private int nextCounter = 0;
-
-	/**
-	 * Instantiates a new Sequencer.
-	 */
-	public Sequencer() {
-
-	}
 
 	/**
 	 * Instantiates a new Sequencer.
@@ -58,11 +51,12 @@ public class Sequencer {
 	 * Returns the next APIDataObject in this Sequencer.
 	 * Returns null if the Sequencer has ended.
 	 *
-	 * @return the api data object
-	 * @throws ParseException             the parse exception
-	 * @throws HTTPStatusException        the http status exception
-	 * @throws MalformedURLException      the malformed url exception
-	 * @throws RateLimitExceededException the rate limit exceeded exception
+	 * @return the com.ihga.api data object
+	 * @throws ParseException               the parse com.ihga.exception
+	 * @throws HTTPStatusException          the http status com.ihga.exception
+	 * @throws MalformedURLException        the malformed url com.ihga.exception
+	 * @throws RateLimitExceededException   the rate limit exceeded com.ihga.exception
+	 * @throws InternalServerErrorException the internal server error com.ihga.exception
 	 */
 	public JSONObject next() throws ParseException, HTTPStatusException, MalformedURLException, RateLimitExceededException, InternalServerErrorException {
 		nextCounter++;
