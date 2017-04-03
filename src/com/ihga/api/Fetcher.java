@@ -1,5 +1,6 @@
 package com.ihga.api;
 
+import com.ihga.calculator.Calculator;
 import com.ihga.exception.HTTPStatusException;
 import com.ihga.exception.InternalServerErrorException;
 import com.ihga.exception.RateLimitExceededException;
@@ -17,9 +18,10 @@ import java.util.ArrayList;
  */
 public class Fetcher {
 
-	private ArrayList<Filter> filters;
 	private Sequencer sequencer;
+	private ArrayList<Filter> filters;
 	private ArrayList<Formatter> formatters;
+	private ArrayList<Calculator> calculators;
 
 	private long startTime, endTime;
 	private int numberOfResults = 0, resultCap = 0;
@@ -46,23 +48,34 @@ public class Fetcher {
 	public void run() {
 		startTime = System.currentTimeMillis();
 
+		// While not the wanted number of results yet
 		while (numberOfResults < resultCap) {
 			try {
+				// Request data from Riot API
 				JSONObject obj = sequencer.next();
 
+				// If null is returned, something went wrong; break
 				if (obj == null)
 					break;
 
 				boolean ok = true;
+				// Check if this obj passes all Filters
 				for (Filter filter : filters) {
 					if (!filter.filter(obj))
 						ok = false;
 				}
 
+				// If they all pass
 				if (ok) {
+					// Add to Formatters
 					for (Formatter formatter : formatters) {
 						formatter.add(obj);
 					}
+					// Add to Calculators
+					for (Calculator calculator : calculators) {
+						calculator.add(obj);
+					}
+					// Increment number of results
 					numberOfResults++;
 				}
 
@@ -126,6 +139,15 @@ public class Fetcher {
 	 */
 	public void registerFormatter(Formatter formatter) {
 		formatters.add(formatter);
+	}
+
+	/**
+	 * Register calculator.
+	 *
+	 * @param calculator the calculator
+	 */
+	public void registerCalculator(Calculator calculator) {
+		calculators.add(calculator);
 	}
 
 	/**
@@ -234,6 +256,24 @@ public class Fetcher {
 	 */
 	public void setFormatters(ArrayList<Formatter> formatters) {
 		this.formatters = formatters;
+	}
+
+	/**
+	 * Gets calculators.
+	 *
+	 * @return the calculators
+	 */
+	public ArrayList<Calculator> getCalculators() {
+		return calculators;
+	}
+
+	/**
+	 * Sets calculators.
+	 *
+	 * @param calculators the calculators
+	 */
+	public void setCalculators(ArrayList<Calculator> calculators) {
+		this.calculators = calculators;
 	}
 
 	/**
