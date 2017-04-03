@@ -31,7 +31,6 @@ public class Fetcher {
 	 * Instantiates a new Fetcher.
 	 *
 	 * @param sequencer the sequencer
-	 * @param formatter the com.ihga.formatter
 	 * @param resultCap the result cap
 	 */
 	public Fetcher(Sequencer sequencer, int resultCap) {
@@ -220,21 +219,21 @@ public class Fetcher {
 	}
 
 	/**
-	 * Gets com.ihga.formatter.
+	 * Gets formatters.
 	 *
-	 * @return the com.ihga.formatter
+	 * @return the formatters
 	 */
-	public Formatter getFormatter() {
-		return formatter;
+	public ArrayList<Formatter> getFormatters() {
+		return formatters;
 	}
 
 	/**
-	 * Sets com.ihga.formatter.
+	 * Sets formatters.
 	 *
-	 * @param formatter the com.ihga.formatter
+	 * @param formatters the formatters
 	 */
-	public void setFormatter(Formatter formatter) {
-		this.formatter = formatter;
+	public void setFormatters(ArrayList<Formatter> formatters) {
+		this.formatters = formatters;
 	}
 
 	/**
