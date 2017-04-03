@@ -19,7 +19,7 @@ public class Fetcher {
 
 	private ArrayList<Filter> filters;
 	private Sequencer sequencer;
-	private Formatter formatter;
+	private ArrayList<Formatter> formatters;
 
 	private long startTime, endTime;
 	private int numberOfResults = 0, resultCap = 0;
@@ -34,9 +34,9 @@ public class Fetcher {
 	 * @param formatter the com.ihga.formatter
 	 * @param resultCap the result cap
 	 */
-	public Fetcher(Sequencer sequencer, Formatter formatter, int resultCap) {
+	public Fetcher(Sequencer sequencer, int resultCap) {
 		this.sequencer = sequencer;
-		this.formatter = formatter;
+		this.formatters = new ArrayList<>();
 		this.filters = new ArrayList<>();
 		this.resultCap = resultCap;
 	}
@@ -46,23 +46,6 @@ public class Fetcher {
 	 */
 	public void run() {
 		startTime = System.currentTimeMillis();
-
-		/*
-		while not enough results
-			get next result r from sequencer
-
-			ok = true
-			for each com.ihga.filter f in filters
-				if !f.com.ihga.filter(r)
-					ok = false
-			end for
-
-			if ok
-				com.ihga.formatter.add(r)
-				numberOfResults++
-			end if
-		end while
-		 */
 
 		while (numberOfResults < resultCap) {
 			try {
@@ -78,16 +61,18 @@ public class Fetcher {
 				}
 
 				if (ok) {
-					formatter.add(obj);
+					for (Formatter formatter : formatters) {
+						formatter.add(obj);
+					}
 					numberOfResults++;
 				}
 
 				if (statusUpdates && numberOfResults % updateInterval == 0)
-					System.out.println("Fetcher has fetched " + numberOfResults + "/" + resultCap + " results (" + Math.round((double)numberOfResults/(double)resultCap*100) + "%)");
+					System.out.println("Fetcher has fetched " + numberOfResults + "/" + resultCap + " results (" + Math.round((double) numberOfResults / (double) resultCap * 100) + "%)");
 
 			} catch (HTTPStatusException e) {
 				int code = e.getCode();
-				switch(code) {
+				switch (code) {
 //					case 404: // File not found
 //						break;
 //					case 429: // Rate limit exceeded
@@ -121,7 +106,7 @@ public class Fetcher {
 		}
 
 		if (statusUpdates)
-			System.out.println("Fetcher has fetched " + numberOfResults + "/" + resultCap + " results (" + Math.round((double)numberOfResults/(double)resultCap*100) + "%)");
+			System.out.println("Fetcher has fetched " + numberOfResults + "/" + resultCap + " results (" + Math.round((double) numberOfResults / (double) resultCap * 100) + "%)");
 
 		endTime = System.currentTimeMillis();
 	}
@@ -133,6 +118,15 @@ public class Fetcher {
 	 */
 	public void registerFilter(Filter filter) {
 		filters.add(filter);
+	}
+
+	/**
+	 * Register a Formatter.
+	 *
+	 * @param formatter the formatter
+	 */
+	public void registerFormatter(Formatter formatter) {
+		formatters.add(formatter);
 	}
 
 	/**
